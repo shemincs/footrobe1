@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="author" content="CodeHim">
+      <title> Product Details  </title>
+      <!-- Style CSS -->
+      <link rel="stylesheet" href="/assets/css/DetailPstyle.css">
+      <!-- Demo CSS (No need to include it into your project) -->
+      <link rel="stylesheet" href="./css/demo.css">
+      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"></script>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/js/all.min.js" integrity="sha512-naukR7I+Nk6gp7p5TMA4ycgfxaZBJ7MO5iC3Fp6ySQyKFHOGfpkSZkYVWV5R7u7cfAicxanwYQ5D1e17EfJcMA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+   </head>
+   <body>
+      <header class="cd__intro">
+         <h1> Product Details  </h1>
+         <!-- <p> Bootstrap 5 Product Details #3 </p> -->
+         <div class="cd__action">
+            <a href="https://www.codehim.com/bootstrap/bootstrap-5-product-details-page" title="Back to download and tutorial page" class="cd__btn back"></a>
+         </div>
+      </header>
+      <!--$%adsense%$-->
+      <main class="cd__main">
+         <!-- Start DEMO HTML (Use the following code into your project)-->
+         <div class="container my-5">
+        <div class="row">
+            <div class="col-md-5">
+                <div class="main-img">
+                    <img src="/adminassets/products/<%=Products.image[0]%>" class="img-container zoom-image" alt="ProductS">
+                    <div class="row my-3 previews">
+                         <div class="col-md-3">
+                            <img class="w-100" src="/adminassets/products/<%=Products.image[1]%>" alt="ProductS"> 
+                        </div> 
+                         <div class="col-md-3">
+                            <img class="w-100" src="/adminassets/products/<%=Products.image[2]%>" alt="ProductS"> 
+                        </div> 
+                        <!-- <div class="col-md-3">
+                            <img class="w-100" src="https://cdn.pixabay.com/photo/2015/07/24/18/39/model-858751_960_720.jpg" alt="Sale">
+                        </div> -->
+                        <!-- <div class="col-md-3">
+                            <img class="w-100" src="https://cdn.pixabay.com/photo/2015/07/24/18/37/model-858748_960_720.jpg" alt="Sale">
+                        </div> -->
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-7">
+                <div class="main-description px-2">
+                    <div class="category text-bold">
+                        Category:<%Products.Category%>
+                    </div>
+                    <div class="product-title text-bold my-3">
+                        Shoes for mens
+                    </div>
+                    <div>
+                        
+                    </div>
+                    
+
+
+                    <div class="price-area my-4">
+                        <p class="old-price mb-1"><h2><%=Products.SalesPrice%></h2> <span class="old-price-discount text-danger">(20% off)</span></p>
+                        <p class="new-price text-bold mb-1"><%Products.SalesPrice%></p>
+                        <p class="text-secondary mb-1">(Additional tax may apply on checkout)</p>
+
+                    </div>
+
+
+                    <div class="buttons d-flex my-5">
+                        <div class="block">
+                            <!-- <a href="#" class="shadow btn custom-btn ">Wishlist</a> -->
+                        </div>
+                        <div class="block">
+                            <a href="/addtocart?productId=<%=Products._id%>" class="shadow btn custom-btn">Add to cart</a>
+                            
+                        </div>
+
+                        <div class="block quantity">
+                            <input type="number" class="form-control" id="cart_quantity" value="1" min="0" max="5" placeholder="Enter email" name="cart_quantity">
+                        </div>
+                    </div>
+
+
+
+
+                </div>
+                <%console.log(Products)%>
+                <div class="product-details my-4">
+                    <p class="details-title text-color mb-1"><%=Products.Description%></p>
+                    <p class="description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat excepturi odio recusandae aliquid ad impedit autem commodi earum voluptatem laboriosam? </p>
+                </div>
+              
+                         <div class="row questions bg-light p-3">
+                    <div class="col-md-1 icon">
+                        <i class="fa-brands fa-rocketchat questions-icon"></i>
+                    </div>
+                    <div class="col-md-11 text">
+                        Have a question about our products at E-Store? Feel free to contact our representatives via live chat or email.
+                    </div>
+                </div>
+
+                <div class="delivery my-4">
+                    <p class="font-weight-bold mb-0"><span><i class="fa-solid fa-truck"></i></span> <b>Delivery done in 3 days from date of purchase</b> </p>
+                    <p class="text-secondary">Order now to get this product delivery</p>
+                </div>
+                <div class="delivery-options my-4">
+                    <p class="font-weight-bold mb-0"><span><i class="fa-solid fa-filter"></i></span> <b>Delivery options</b> </p>
+                    <p class="text-secondary">View delivery options here</p>
+                </div>
+                
+             
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="container similar-products my-4">
+        <hr>
+        <!-- <p class="display-5">Similar Products</p> -->
+
+        <!-- <div class="row">
+            <div class="col-md-3">
+                 <div class="similar-product">
+                    <img class="img-fluid" src="/adminassets/products/<%=Products.image[1]%>" alt="ProductS">
+                    <p class="title">Lovely black dress</p>
+                    
+                </div>  -->
+            </div>
+               
+                    <div class="col-md-3"> 
+                 <!-- <div class="similar-product">
+                    <img class="img-fluid" src="/adminassets/products/<%=Products.image[2]%>" alt="ProductS">
+                    <p class="title">Lovely Dress with patterns</p>
+                    <p class="price">$85</p>
+                </div> -->
+            </div>
+            <div class="col-md-3">
+                <!-- <div class="similar-product">
+                    <img class="w-100" src="https://source.unsplash.com/gJZQcirK8aw" alt="Preview">
+                    <p class="title">Lovely fashion dress</p>
+                    <p class="price">$200</p>
+                </div> -->
+            </div>
+            <div class="col-md-3">
+                <!-- <div class="similar-product">
+                    <img class="w-100" src="https://source.unsplash.com/qbB_Z2pXLEU" alt="Preview">
+                    <p class="title">Lovely red dress</p>
+                    <p class="price">$120</p>
+                </div> -->
+            </div>
+        </div>
+    </div>
+
+    </div>
+         <!-- END EDMO HTML (Happy Coding!)-->
+      </main>
+      <footer class="cd__credit">Author: cloudyweather1 - Distributed By: <a title="Free web design code & scripts" href="https://www.codehim.com?source=demo-page" target="_blank">CodeHim</a></footer>
+      
+      <!-- Script JS -->
+      <script src="./js/script.js"></script>
+      <!--$%analytics%$-->
+
+      <script>
+        const zoomImages = document.querySelectorAll(".zoom-image");
+        
+        zoomImages.forEach((image) => {
+            image.addEventListener("mousemove", function (event) {
+                const container = image.parentElement;
+                const rect = container.getBoundingClientRect();
+                const x = (event.clientX - rect.left) / rect.width;
+                const y = (event.clientY - rect.top) / rect.height;
+                image.style.transformOrigin = `${x * 100}% ${y * 100}%`;
+                image.style.transform = "scale(2)";
+            });
+        
+            image.addEventListener("mouseleave", function () {
+                image.style.transform = "scale(1)";
+            });
+        });
+        
+                </script>
+   </body>
+</html>

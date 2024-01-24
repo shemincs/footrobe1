@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Coupon Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .generate-button {
+            display: inline-block;
+            margin-top: 5px;
+            padding: 8px 16px;
+            background-color: #f44336;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .generate-button:hover {
+            background-color: #d32f2f;
+        }
+    
+        .container {
+            width: 50%;
+            margin: 50px auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        textarea,
+        input[type="date"] {
+            width: calc(100% - 12px);
+            padding: 8px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+
+        input[type="submit"] {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <form id="couponForm" action="/admin/couponPost" method="POST" onsubmit="return validateForm(event)">
+            <!-- Your form fields here -->
+        
+        
+            <div class="form-group">
+                <label for="couponCode">Coupon Code:</label>
+                <input required type="text" id="couponCode" name="couponCode">
+            </div>
+            <div class="form-group">
+                <button class="generate-coupon-button" onclick="generateCoupon(event)">Generate Coupon</button>
+            </div>
+            
+            <div class="form-group">
+                <label for="validity">Validity:</label>
+                <input required type="date" id="validity" name="validity">
+            </div>
+            
+            <div class="form-group">
+                <label for="minPurchase">Minimum Purchase Amount:</label>
+                <input required type="number" id="minPurchase" name="minPurchase">
+            </div>
+            
+            <div class="form-group">
+                <label for="minDiscountPercentage">Minimum Discount Percentage:</label>
+                <input required type="number" id="minDiscountPercentage" name="minDiscountPercentage">
+            </div>
+            
+            <div class="form-group">
+                <label for="description">Description:</label>
+                <textarea required id="description" name="description" rows="4" cols="50"></textarea>
+            </div>
+            
+            <div class="form-group">
+                <input type="submit" value="Submit">
+            </div>
+        </form>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+    <script>
+        function generateCoupon(e) {
+    e.preventDefault();
+
+    console.log("reached");
+    $.ajax({
+        url: '/admin/couponGen',
+        method: "POST",
+        success: function (response) {
+            if (response.status === 200 && response.coupon) {
+                document.getElementById('couponCode').value = response.coupon;
+                alert("Coupon created: " + response.coupon);
+            } else {
+                alert("Can't create a coupon");
+            }
+        },
+        error: function (err) {
+            alert(`Internal server error : ${err.responseText}`);
+        }
+    });
+}
+
+    </script>
+
+    
+
+<script>
+    function validateForm(event) {
+        event.preventDefault(); // Prevents form submission if validation fails
+        
+        // Retrieve form input values
+        const couponCode = document.getElementById('couponCode').value.trim();
+        const validity = document.getElementById('validity').value;
+        const minPurchase = document.getElementById('minPurchase').value;
+        const minDiscountPercentage = document.getElementById('minDiscountPercentage').value;
+        const description = document.getElementById('description').value.trim();
+        
+        // Validate Coupon Code
+        if (couponCode === '') {
+            alert('Please enter a coupon code');
+            return false;
+        }
+        
+        // Validate Validity
+        if (validity === '') {
+            alert('Please select a validity date');
+            return false;
+        }
+        
+        // Validate Minimum Purchase
+        if (isNaN(minPurchase) || minPurchase <= 0) {
+            alert('Please enter a valid minimum purchase amount');
+            return false;
+        }
+        
+        // Validate Minimum Discount Percentage
+        if (isNaN(minDiscountPercentage) || minDiscountPercentage < 0 || minDiscountPercentage > 100) {
+            alert('Please enter a valid discount percentage between 0 and 100');
+            return false;
+        }
+        
+        // Validate Description
+        if (description === '') {
+            alert('Please enter a description');
+            return false;
+        }
+        
+        // If all validations pass, submit the form
+        document.getElementById('couponForm').submit();
+    }
+</script>
+    
+</body>
+</html>

@@ -1,0 +1,192 @@
+<div class="page-wrapper bg-gra-01 p-t-180 p-b-100 font-poppins">
+    <div class="wrapper wrapper--w780">
+        <div class="card card-3">
+            <div class="card-heading"></div>
+            <div class="card-body">
+                <h2 class="title">Registration Info</h2>
+                <form action="/signup" method="post">
+                    <div class="input-group">
+                        <input required class="input--style-3" type="text" placeholder="Name" name="name" id="name">
+                        <p id="name_error" style="color: red;"></p>
+                    </div>
+
+                    <div class="input-group">
+                        <input required class="input--style-3" type="email" placeholder="Email" name="email" id="email1">
+                        <p id="email_error" style="color: red;"></p>
+                    </div>
+                    <div class="input-group">
+                        <input required class="input--style-3" type="password" placeholder="Password" name="password"
+                            id="password">
+                        <p id="password_error" style="color: red;"></p>
+                    </div>
+                    <div class="input-group">
+                         <input required class="input--style-3" type="Number" placeholder="phone" name="phone" id="phone"> 
+                        <p id="phone_error" style="color: red;"></p>
+                    </div>
+
+
+                    <button class="btn btn--pill btn--green" type="submit">Submit</button>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+ <!-- <script>
+
+    let name = document.getElementById('name');
+    let email = document.getElementById('email1');
+    // let phone = document.getElementById('phone')
+    let password = document.getElementById('password');
+    let form = document.querySelector('form')
+    form.addEventListener('submit', validate)
+
+    document.getElementById(' name_error').textContent = '';
+    document.getElementById(' email_error').textContent = '';
+    document.getElementById(' phone_error').textContent = '';
+    document.getElementById(' password_error').textContent = '';
+
+    var phoneno = /^\d{10}$/;
+    function validate(e) {
+
+        if (name.value == '') {
+            document.getElementById('name_error').textContent = 'Proper name is required'
+            e.preventDefault();
+
+        }
+        if (email.value == '') {
+            document.getElementById('email_error').textContent = 'Proper email is required'
+            e.preventDefault();
+        }
+        if (phone.value == '') {
+            document.getElementById('phone_error').textContent = 'Phone number is required';
+            e.preventDefault();
+        } else if (phone.value == '') {
+            e.preventDefault();
+            document.getElementById('phone_error').textContent = 'Phone number must have exactly 10 digits';
+        }
+
+
+        if (password.value.length <= 5 || password.value.trim() === '') {
+            // alert(password.length <= 5 )
+            // alert(password.trim() === '')
+            // alert(password)
+            document.getElementById('password_error').textContent = 'Please enter atleast 6 characters'
+            e.preventDefault();
+        }
+
+
+    }
+
+
+</script>  -->
+
+
+<!-- <script>
+    let name = document.getElementById('name');
+    let email = document.getElementById('email1');
+    let phone = document.getElementById('phone');
+    let password = document.getElementById('password');
+    let form = document.querySelector('form');
+    
+    form.addEventListener('submit', validate);
+
+    function validate(e) {
+        let isValid = true;
+
+        // Name Validation
+        if (name.value.trim() === '') {
+            document.getElementById('name_error').textContent = 'Proper name is required';
+            isValid = false;
+        } else {
+            document.getElementById('name_error').textContent = '';
+        }
+
+        // Email Validation
+        let emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailPattern.test(email.value.trim())) {
+            document.getElementById('email_error').textContent = 'Enter a valid email address';
+            isValid = false;
+        } else {
+            document.getElementById('email_error').textContent = '';
+        }
+
+        // Phone Validation
+        if (phone.value.trim() === '') {
+            document.getElementById('phone_error').textContent = 'Phone number is required';
+            isValid = false;
+        } else if (!/^\d{10}$/.test(phone.value.trim())) {
+            document.getElementById('phone_error').textContent = 'Phone number must have exactly 10 digits';
+            isValid = false;
+        } else {
+            document.getElementById('phone_error').textContent = '';
+        }
+
+        // Password Validation
+        if (password.value.trim().length < 6) {
+            document.getElementById('password_error').textContent = 'Password must be at least 6 characters long';
+            isValid = false;
+        } else {
+            document.getElementById('password_error').textContent = '';
+        }
+
+        if (!isValid) {
+            e.preventDefault();
+        }
+    }
+</script>
+ -->
+
+ <script>
+    let name = document.getElementById('name');
+    let email = document.getElementById('email1');
+    let phone = document.getElementById('phone');
+    let password = document.getElementById('password');
+    let form = document.querySelector('form');
+    
+    form.addEventListener('submit', validate);
+
+    function validate(e) {
+        let isValid = true;
+
+        // Name Validation
+        if (name.value.trim() === '') {
+            document.getElementById('name_error').textContent = 'Proper name is required';
+            isValid = false;
+        } else {
+            document.getElementById('name_error').textContent = '';
+        }
+
+        // Email Validation
+        let emailRegex = /^[a-zA-Z0-9._%+-]+@gmail\.com$/; // Gmail-specific regex pattern
+        if (!emailRegex.test(email.value.trim())) {
+            document.getElementById('email_error').textContent = 'Please enter a valid Gmail address';
+            isValid = false;
+        } else {
+            document.getElementById('email_error').textContent = '';
+        }
+
+        // Phone Validation
+        if (phone.value.trim() === '') {
+            document.getElementById('phone_error').textContent = 'Phone number is required';
+            isValid = false;
+        } else if (!/^\d{10}$/.test(phone.value.trim())) {
+            document.getElementById('phone_error').textContent = 'Phone number must have exactly 10 digits';
+            isValid = false;
+        } else {
+            document.getElementById('phone_error').textContent = '';
+        }
+
+        // Password Validation
+        if (password.value.trim().length < 6) {
+            document.getElementById('password_error').textContent = 'Password must be at least 6 characters long';
+            isValid = false;
+        } else {
+            document.getElementById('password_error').textContent = '';
+        }
+
+        if (!isValid) {
+            e.preventDefault();
+        }
+    }
+</script>

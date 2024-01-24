@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Coupon Listing</title>
+  <style>
+    body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f4f4f4;
+  margin: 0;
+  padding: 20px;
+}
+
+.coupon-container {
+  width: 80%;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.coupon-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+.coupon-table th,
+.coupon-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.coupon-table th {
+  background-color: #f2f2f2;
+}
+
+.remove-coupon-btn {
+  padding: 6px 10px;
+  font-size: 0.8em;
+  background-color: #ff4444;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.remove-coupon-btn:hover {
+  background-color: #cc0000;
+}
+
+.add-coupon-btn {
+  padding: 10px 20px;
+  font-size: 1em;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.add-coupon-btn:hover {
+  background-color: #45a049;
+}
+
+  </style>
+</head>
+<body>
+  <div class="coupon-container">
+    <h1>Available Coupons</h1>
+
+    <table class="coupon-table">
+      <thead>
+        <tr>
+          <th>Coupon Code</th>
+          <th>Validity</th>
+          <th>Minimum Purchase</th>
+          <th>Minimum Discount %</th>
+          <th>Description</th>
+          <th>Remove</th>
+        </tr>
+      </thead>
+      
+        <tbody>
+          <% coupons.forEach(coupon => { %>
+            <tr>
+              <td><%= coupon.couponeCode %></td>
+              <td><%= coupon.validity %></td>
+              <td><%= coupon.
+                minPurchase %></td>
+              <td><%= coupon.
+                minDiscountPercentage %></td>
+              <td><%= coupon.description %></td>
+              <td>
+                <button class="remove-coupon-btn" data-coupon-id="<%= coupon.id %>">Remove</button>
+              </td>
+            </tr>
+          <% }); %>
+        </tbody>
+      
+    </table>
+
+    <a href="/admin/coupon" class="add-coupon-btn">Add Coupon</a>
+
+  </div>
+</body>
+</html>
+
+<script>
+
+document.addEventListener('DOMContentLoaded', function() {
+  const removeButtons = document.querySelectorAll('.remove-coupon-btn');
+
+  removeButtons.forEach(button => {
+    button.addEventListener('click', function(event) {
+      const couponId = event.target.dataset.couponId;
+      
+      // Perform a fetch request to your backend endpoint with the coupon ID as a query parameter
+      fetch(`/admin/couponRemove?couponId=${couponId}`, {
+        method: 'DELETE', // Assuming you are using the DELETE method to remove the coupon
+        headers: {
+          'Content-Type': 'application/json'
+          // Add other headers if required
+        },
+        // You can include a body for some request methods like POST or PUT, but for DELETE it's optional
+        // body: JSON.stringify({ couponId: couponId }) 
+      })
+      .then(response => {
+        if (response.ok) {
+          // Handle the success response from the server
+          alert("coupon deleted")
+          window.location.reload();
+          // You might want to remove the coupon row from the UI here
+        } else {
+          // Handle errors or non-OK responses from the server
+          console.error('Failed to remove coupon');
+        }
+      })
+      .catch(error => {
+        // Handle fetch errors
+        console.error('Error:', error);
+      });
+    });
+  });
+});
+
+</script>

@@ -1,0 +1,203 @@
+<div class="page-wrapper bg-gra-01 p-t-180 p-b-100 font-poppins">
+  <div class="wrapper wrapper--w780">
+    <div class="card card-3">
+      <div class="card-heading"></div>
+      <div class="card-body">
+        <h2 class="title">Enter OTP</h2>
+        <form action="/OTP" method="post" id="otpForm">
+          <div class="input-group">
+            <% if(locals.message){ %>
+            <h1 style="color:red"><%= message%></h1>
+            <% } %>
+            <input class="input--style-3" type="text" placeholder="OTP" name="otp" id="otp">
+            <p id="otp_error" style="color: red;"></p>
+          </div>
+
+          <p id="successMessage" style="color: green;"></p>
+          <p id="otpTimer" style="color: blue;"></p>
+          <div id="timer" style="color: blue;"></div>
+
+          <!-- You can add additional input fields or instructions if needed -->
+
+          <button class="btn btn--pill btn--green" type="submit" id="submitBtn">Verify OTP</button>
+          <button class="btn btn--pill btn--green" type="button" onclick="resendOTP()">Resend OTP</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  let resendCount = 0; // Declare resendCount at the top level
+  let otpTimer; // Variable to store the timer interval
+
+  const startTimer = (durationInSeconds) => {
+    let timer = durationInSeconds;
+    const timerElement = document.getElementById("timer");
+
+    const updateTimer = () => {
+      const minutes = Math.floor(timer / 60);
+      const seconds = timer % 60;
+
+      // Display the remaining time
+      timerElement.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+
+      if (--timer < 0) {
+        // Timer has reached 0, you can perform an action here (e.g., disable the form)
+        // Optionally, you can hide the timer element or perform other actions
+        timerElement.textContent = 'Time expired';
+        disableForm(); // Implement this function to disable the form
+      }
+    };
+
+    // Update the timer every second
+    setInterval(updateTimer, 1000);
+
+    // Initial update
+    updateTimer();
+  };
+  const disableForm = () => {
+  const otpInput = document.getElementById("otp");
+  const submitButton = document.getElementById("submitBtn");
+
+  otpInput.disabled = true; // Disable the OTP input field
+  submitButton.disabled = true;
+
+  console.log('Form disabled');
+};
+
+const enableForm = () => {
+  const otpInput = document.getElementById("otp");
+  const submitButton = document.getElementById("submitBtn");
+  const otpTimerDisplay = document.getElementById("otpTimer");
+
+  // Introduce a small delay (e.g., 100 milliseconds) before enabling the form
+  setTimeout(() => {
+    otpInput.disabled = false; // Enable the OTP input field
+    submitButton.disabled = false;
+
+    // Clear the OTP timer display
+    otpTimerDisplay.textContent = "";
+
+    // Remove the "Time left" text from the success message
+    const successMessage = document.getElementById("successMessage");
+    if (successMessage) {
+      successMessage.textContent = "New OTP sent successfully";
+    }
+
+    console.log('Form enabled');
+  }, 100);
+};
+
+  const startOTPTimer = () => {
+    let timeLeft = 300; // Set the OTP expiration time in seconds
+
+    const otpTimerDisplay = document.getElementById('otpTimer');
+    otpTimerDisplay.textContent = `Time left: ${timeLeft} seconds`;
+
+    otpTimer = setInterval(() => {
+      if (timeLeft > 0) {
+        otpTimerDisplay.textContent = `Time left: ${timeLeft} seconds`;
+        timeLeft--;
+      } else {
+        otpTimerDisplay.textContent = 'OTP expired';
+        clearInterval(otpTimer);
+        enableForm(); // Enable the form when the OTP timer expires
+      }
+    }, 1000);
+  };
+
+ 
+  const resendOTP = async () => {
+  console.log('Resend OTP button clicked');
+  clearInterval(otpTimer); // Clear the previous timer if it exists
+
+  const otpInput = document.getElementById("otp");
+
+  // Clear the OTP input field and any previous error messages
+  otpInput.value = '';
+  document.getElementById('otp_error').textContent = '';
+
+  try {
+    const response = await fetch('/resendOTP', {
+      method: 'POST',
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      // Increment the resend count based on the response
+      if (data.resendCount !== undefined) {
+        resendCount = data.resendCount;
+        console.log("res", resendCount);
+      } else {
+        console.log("Response does not contain resendCount property:", data);
+      }
+
+      const successMessage = document.getElementById('successMessage');
+      console.log("MMM", successMessage);
+      if (successMessage) {
+        // If the success message exists, update it with the current count
+        successMessage.textContent = `New OTP sent successfully (${resendCount} time(s))`;
+        console.log("?", successMessage.textContent)
+      } else {
+        // If the success message doesn't exist, create and insert it into the form
+        const newSuccessMessage = document.createElement('p');
+        newSuccessMessage.textContent = `New OTP sent successfully (${resendCount} time(s))`;
+        newSuccessMessage.style.color = 'green';
+        newSuccessMessage.id = 'successMessage';
+
+        const form = document.querySelector('form');
+        form.insertBefore(newSuccessMessage, form.lastElementChild);
+      }
+
+      // Start the new OTP timer after updating the success message
+      startOTPTimer();
+
+      // Disable the form after starting the OTP timer
+      disableForm();
+    } else {
+      throw new Error('Failed to resend OTP');
+    }
+  } catch (error) {
+    console.error('Error occurred while resending OTP:', error);
+    // Handle errors and display an error message if needed
+  }
+};
+
+
+  // Call startTimer when the page loads or when needed
+  window.onload = () => {
+    const timerDuration = 30; // retrieve the timer duration from the server response
+    startTimer(timerDuration);
+  };
+</script>
+
+
+
+
+
+<!-- <script>
+  // Update the timer every second
+  function updateOTPTimer() {
+    const otpExpirationTime = document.getElementById('otp-timer').dataset.otpExpiration; // Get the OTP expiration time from your backend
+    const now = Date.now();
+    const timeRemaining = Math.max(0, Math.ceil((otpExpirationTime - now) / 1000));
+
+    const minutes = Math.floor(timeRemaining / 60);
+    const seconds = timeRemaining % 60;
+
+    // Display the timer on the page
+    document.getElementById('otp-timer').innerText = `Time remaining: ${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+
+    // Redirect or perform other actions when the timer reaches zero
+    if (timeRemaining === 0) {
+      // Add logic to handle the expiration of the OTP
+    } else {
+      // Call the updateOTPTimer function again after 1 second
+      setTimeout(updateOTPTimer, 1000);
+    }
+  }
+
+  // Call the updateOTPTimer function when the page loads
+  updateOTPTimer();
+</script> -->
